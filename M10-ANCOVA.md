@@ -423,54 +423,46 @@ answers?
 
 ``` r
 # ANCOVA using Fruit ~ Root + Grazing
-model2 <- lm(Fruit ~ Root + Grazing, data = ipo_data)
-summary(model2)
+model2 <- anova(lm(Fruit ~ Root + Grazing, data = ipo_data))
+model2
 ```
 
+    ## Analysis of Variance Table
     ## 
-    ## Call:
-    ## lm(formula = Fruit ~ Root + Grazing, data = ipo_data)
-    ## 
-    ## Residuals:
-    ##      Min       1Q   Median       3Q      Max 
-    ## -17.1920  -2.8224   0.3223   3.9144  17.3290 
-    ## 
-    ## Coefficients:
-    ##                 Estimate Std. Error t value Pr(>|t|)
-    ## (Intercept)     -127.829      9.664  -13.23 1.35e-15
-    ## Root              23.560      1.149   20.51  < 2e-16
-    ## GrazingUngrazed   36.103      3.357   10.75 6.11e-13
-    ## 
-    ## Residual standard error: 6.747 on 37 degrees of freedom
-    ## Multiple R-squared:  0.9291, Adjusted R-squared:  0.9252 
-    ## F-statistic: 242.3 on 2 and 37 DF,  p-value: < 2.2e-16
+    ## Response: Fruit
+    ##           Df  Sum Sq Mean Sq F value    Pr(>F)
+    ## Root       1 16795.0 16795.0  368.91 < 2.2e-16
+    ## Grazing    1  5264.4  5264.4  115.63 6.107e-13
+    ## Residuals 37  1684.5    45.5
 
 ``` r
 # ANCOVA using Fruit ~ Grazing + Root
-model3 <- lm(Fruit ~ Grazing + Root, data = ipo_data)
-summary(model3)
+model3 <- anova(lm(Fruit ~ Grazing + Root, data = ipo_data))
+model3
 ```
 
+    ## Analysis of Variance Table
     ## 
-    ## Call:
-    ## lm(formula = Fruit ~ Grazing + Root, data = ipo_data)
-    ## 
-    ## Residuals:
-    ##      Min       1Q   Median       3Q      Max 
-    ## -17.1920  -2.8224   0.3223   3.9144  17.3290 
-    ## 
-    ## Coefficients:
-    ##                 Estimate Std. Error t value Pr(>|t|)
-    ## (Intercept)     -127.829      9.664  -13.23 1.35e-15
-    ## GrazingUngrazed   36.103      3.357   10.75 6.11e-13
-    ## Root              23.560      1.149   20.51  < 2e-16
-    ## 
-    ## Residual standard error: 6.747 on 37 degrees of freedom
-    ## Multiple R-squared:  0.9291, Adjusted R-squared:  0.9252 
-    ## F-statistic: 242.3 on 2 and 37 DF,  p-value: < 2.2e-16
+    ## Response: Fruit
+    ##           Df  Sum Sq Mean Sq F value    Pr(>F)
+    ## Grazing    1  2910.4  2910.4  63.929 1.397e-09
+    ## Root       1 19148.9 19148.9 420.616 < 2.2e-16
+    ## Residuals 37  1684.5    45.5
 
-Though the orders of the independent variables in the two ANCOVA models
-above are different, the models’ results are the same. This is because
-the order of the independent variables in a linear regression/ANCOVA
-model doesn’t matter, while the order of the covariate versus the
-treatments (independent variables) does.
+In both models, the ANCOVA results indicate that both root size and
+grazing status have a significant effect on fruit size. Additionally,
+both Model2 and Model3 show that root size has a larger overall effect
+than grazing status. The p- and f-values between the two models are
+slightly different however, but the overall significance of each model
+is the same.
+
+The reason why we get different results is that the order of the
+variables in ANCOVA matters. The order of the variables affects how the
+model adjusts for the covariate (root size). In the first model, root
+size is entered as the first variable, so the model first adjusts for
+the effect of root size on fruit size before examining the effect of the
+grazing status. In the second model, grazing status is entered as the
+first variable, so the model first adjusts for the effect of grazing
+status on fruit size. This shows that the order of these variables
+affects the magnitude of the coefficients and their statistical
+significance.
